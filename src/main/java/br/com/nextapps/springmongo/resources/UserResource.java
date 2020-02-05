@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.com.nextapps.springmongo.domain.User;
 import br.com.nextapps.springmongo.dto.UserDTO;
 import br.com.nextapps.springmongo.services.UserService;
+import br.com.nextapps.springmongo.services.exception.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -36,7 +37,7 @@ public class UserResource {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> findById(@PathVariable String id) {
-		User user = service.findaById(id);
+		User user = service.findById(id);
 		UserDTO userDto = new UserDTO(user);
 		return ResponseEntity.ok().body(userDto);
 	}
@@ -49,12 +50,22 @@ public class UserResource {
 		return ResponseEntity.created(uri).build();
 	}
 
-	@RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deletUser(@PathVariable String id) {
-		
+
 		service.deleteUser(id);
 
 		return ResponseEntity.noContent().build();
 	}
 
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> alterarUsuario(@RequestBody UserDTO objDTO, @PathVariable String id)
+			throws ObjectNotFoundException {
+		
+		User user = UserDTO.fromDTO(objDTO);
+		user.setId(id);
+		service.update(user);
+		return ResponseEntity.noContent().build();
+
+	}
 }

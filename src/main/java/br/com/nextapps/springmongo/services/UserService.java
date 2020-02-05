@@ -14,31 +14,40 @@ import br.com.nextapps.springmongo.services.exception.ObjectNotFoundException;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserRepository repo;
-	
-	
-	public List<User>findAll(){
+
+	public List<User> findAll() {
 		return repo.findAll();
 	}
-	
-	public User findaById(String id) {
-		Optional<User> user =  repo.findById(id);
+
+	public User findById(String id) {
+		Optional<User> user = repo.findById(id);
 		return user.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
 	}
-	
+
 	public User saveUser(User user) {
 		return repo.insert(user);
 	}
-	
+
 	public void deleteUser(String id) {
-		findaById(id);
+		findById(id);
 		try {
 			repo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possivel excluir porque há Usuario relacionados");
 		}
-		
+	}
+
+	public User update(User obj) {
+		User newObj = findById(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
+	}
+
+	private void updateData(User newObj, User obj) {
+		newObj.setEmail(obj.getEmail());
+		newObj.setName(obj.getName());
 	}
 }
