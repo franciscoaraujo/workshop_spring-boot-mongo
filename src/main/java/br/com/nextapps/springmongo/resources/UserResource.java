@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.nextapps.springmongo.domain.Post;
 import br.com.nextapps.springmongo.domain.User;
 import br.com.nextapps.springmongo.dto.UserDTO;
 import br.com.nextapps.springmongo.services.UserService;
@@ -61,11 +62,18 @@ public class UserResource {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> alterarUsuario(@RequestBody UserDTO objDTO, @PathVariable String id)
 			throws ObjectNotFoundException {
-		
+
 		User user = UserDTO.fromDTO(objDTO);
 		user.setId(id);
 		service.update(user);
 		return ResponseEntity.noContent().build();
+	}
+
+	@RequestMapping(value = "/{id}/posts", method = RequestMethod.GET)
+	public ResponseEntity<List<Post>> findPosts(@PathVariable String id) throws ObjectNotFoundException {
+		User obj = service.findById(id);
+		return ResponseEntity.ok().body(obj.getPosts());
 
 	}
+
 }
