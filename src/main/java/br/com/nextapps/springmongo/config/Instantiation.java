@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import br.com.nextapps.springmongo.domain.Post;
 import br.com.nextapps.springmongo.domain.User;
+import br.com.nextapps.springmongo.dto.AuthorDTO;
 import br.com.nextapps.springmongo.repositories.PostRepository;
 import br.com.nextapps.springmongo.repositories.UserRepository;
 
@@ -33,13 +34,12 @@ public class Instantiation implements CommandLineRunner {
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
 
 		UserRepository.saveAll(Arrays.asList(maria, alex, bob));
-
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
 		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 
-		Post post1 = new Post(null, sdf.parse("21/03/2018"), "Partiu viagem", "Vou viajar para São Paulo. Abracos!",
-				maria);
-		Post post2 = new Post(null, sdf.parse("23/03/2018"), "Bom dia", "Acordei hoje feliz!!", maria);
+		Post post1 = new Post(null, sdf.parse("21/03/2018"), "Partiu viagem", "Vou viajar para São Paulo. Abracos!",new AuthorDTO(maria));
+		Post post2 = new Post(null, sdf.parse("23/03/2018"), "Bom dia", "Acordei hoje feliz!!", new AuthorDTO(maria));
 
 		postRepository.saveAll(Arrays.asList(post1, post2));
 
