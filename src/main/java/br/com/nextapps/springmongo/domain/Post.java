@@ -18,6 +18,7 @@ public class Post implements Serializable {
 	private Date data;
 	private String title;
 	private String body;
+	
 	private AuthorDTO author;
 
 	public Post() {
@@ -32,7 +33,7 @@ public class Post implements Serializable {
 		this.body = body;
 		this.author = author;
 	}
-
+	
 	public String getId() {
 		return id;
 	}
@@ -72,7 +73,8 @@ public class Post implements Serializable {
 	public void setAuthor(AuthorDTO author) {
 		this.author = author;
 	}
-
+	
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
