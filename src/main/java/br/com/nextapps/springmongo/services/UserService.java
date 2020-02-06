@@ -1,5 +1,6 @@
 package br.com.nextapps.springmongo.services;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public class UserService {
 	public List<User> findAll() {
 		return repo.findAll();
 	}
-
+	
 	public User findById(String id) {
 		Optional<User> user = repo.findById(id);
 		return user.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
@@ -30,7 +31,7 @@ public class UserService {
 	public User saveUser(User user) {
 		return repo.insert(user);
 	}
-
+	
 	public void deleteUser(String id) {
 		findById(id);
 		try {
@@ -49,5 +50,6 @@ public class UserService {
 	private void updateData(User newObj, User obj) {
 		newObj.setEmail(obj.getEmail());
 		newObj.setName(obj.getName());
+		newObj.getPosts().addAll(Arrays.asList(obj.getPosts().get(0)));
 	}
 }

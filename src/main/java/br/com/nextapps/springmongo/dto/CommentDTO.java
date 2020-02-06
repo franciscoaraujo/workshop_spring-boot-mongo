@@ -7,6 +7,8 @@ public class CommentDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	private String id;
+	
 	private String text;
 	private Date data;
 	private AuthorDTO author;
@@ -15,11 +17,18 @@ public class CommentDTO implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	
 	public CommentDTO(String text, Date data, AuthorDTO author) {
 		super();
+		
 		this.text = text;
 		this.data = data;
 		this.author = author;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getText() {

@@ -26,13 +26,12 @@ public class UserResource {
 
 	@Autowired
 	private UserService service;
-
-	// @RequestMapping(method = RequestMethod.GET)
+	
+	// @RequestMapping(method = RequestMethod.GET) ou usar o de baixo
 	@GetMapping
 	public ResponseEntity<List<UserDTO>> findaAll() {
 		List<User> list = service.findAll();
 		List<UserDTO> listDTO = list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
-
 		return ResponseEntity.ok().body(listDTO);// no corpo da minha resposta vai ter o list de users
 	}
 
@@ -49,13 +48,12 @@ public class UserResource {
 		user = service.saveUser(user);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+		
 	}
-
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deletUser(@PathVariable String id) {
-
 		service.deleteUser(id);
-
 		return ResponseEntity.noContent().build();
 	}
 
@@ -73,7 +71,6 @@ public class UserResource {
 	public ResponseEntity<List<Post>> findPosts(@PathVariable String id) throws ObjectNotFoundException {
 		User obj = service.findById(id);
 		return ResponseEntity.ok().body(obj.getPosts());
-
 	}
 
 }
